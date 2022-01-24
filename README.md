@@ -1,5 +1,7 @@
 # Sandbox for React Context
 
+![react-context-video-recording](https://j.gifs.com/oZ8MPj.gif)
+
 ### Notes
 
 **useAutoFetchContext**
