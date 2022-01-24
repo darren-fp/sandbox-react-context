@@ -1,30 +1,36 @@
-import { useContext, useEffect } from "react";
-import { DataContext } from "../context";
+import React, { useContext, useEffect } from "react";
 
-export const useAutoFetchContext = () => {
-  const { data, error, loading, setData, setError, setLoading } =
-    useContext(DataContext);
+interface AutoFetchContext {
+  data: any;
+  error: string;
+  loading: boolean;
+  setData: (data: any) => void;
+  setError: (error: string) => void;
+  setLoading: (loading: boolean) => void;
+  fetchData: () => Promise<any>;
+}
 
-  const fetchData = async () => {
-    if (!data) {
-      setLoading(true);
-      try {
-        await new Promise((resolve) => setTimeout(() => resolve(""), 5000)); // Wait for 5 seconds to simulate api loading
-        const response = await fetch(
-          "https://jsonplaceholder.typicode.com/todos/1"
-        );
-        const json = await response.json();
-        setData(json);
-      } catch (err) {
-        setError(err as string);
-      } finally {
-        setLoading(false);
-      }
-    }
-  };
+export const useAutoFetchContext = (
+  context: React.Context<AutoFetchContext>
+) => {
+  const { data, error, loading, setData, setError, setLoading, fetchData } =
+    useContext(context);
 
   useEffect(() => {
-    fetchData();
+    (async () => {
+      if (!data) {
+        setLoading(true);
+        try {
+          await new Promise((resolve) => setTimeout(() => resolve(""), 5000)); // Wait for 5 seconds to simulate api loading
+          const data = await fetchData();
+          setData(data);
+        } catch (err) {
+          setError(err as string);
+        } finally {
+          setLoading(false);
+        }
+      }
+    })();
   }, []);
 
   return { data, error, loading };

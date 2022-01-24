@@ -1,7 +1,8 @@
+import { DataContext } from "context";
 import { useAutoFetchContext } from "hooks";
 
 const NestedComponent2A = () => {
-  const { data, loading } = useAutoFetchContext();
+  const { data, loading } = useAutoFetchContext(DataContext);
 
   return (
     <div className="nested-component-2A">

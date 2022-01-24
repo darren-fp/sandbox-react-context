@@ -9,6 +9,14 @@ function App() {
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState(false);
 
+  const fetchData = async () => {
+    const response = await fetch(
+      "https://jsonplaceholder.typicode.com/todos/1"
+    );
+    const json = await response.json();
+    return json;
+  };
+
   return (
     <DataContext.Provider
       value={{
@@ -18,6 +26,7 @@ function App() {
         setData,
         setError,
         setLoading,
+        fetchData,
       }}
     >
       <div className="App">
